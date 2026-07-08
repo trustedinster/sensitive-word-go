@@ -1,5 +1,7 @@
 package sensitiveword
 
+import "fmt"
+
 // SensitiveWordBs 敏感词引导类，对应 Java 的 SensitiveWordBs。
 //
 // 采用 fluent-api 风格：通过链式 Setter 配置各项参数，最后调用 Init() 完成初始化。
@@ -288,6 +290,18 @@ func (b *SensitiveWordBs) Replace(target string) string {
 // Tags 获取敏感词的标签。
 func (b *SensitiveWordBs) Tags(word string) []string {
 	return getWordTags(word, b.context)
+}
+
+// Check 检测文本是否包含敏感词，返回是否命中及原因。
+// 命中时 reason 描述命中的敏感词、类型与位置；未命中时 reason 为空字符串。
+func (b *SensitiveWordBs) Check(text string) (bool, string) {
+	result := b.FindFirstRaw(text)
+	if result == nil {
+		return false, ""
+	}
+	reason := fmt.Sprintf("命中敏感词「%s」，类型：%s，位置：%d-%d",
+		result.Word(), result.CheckType(), result.StartIndex(), result.EndIndex())
+	return true, reason
 }
 
 // ===== 动态增删 =====

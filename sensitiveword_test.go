@@ -519,3 +519,26 @@ func TestDefault(t *testing.T) {
 		t.Error("Default instance should detect sensitive word")
 	}
 }
+
+func TestSensitiveWordBs_Check(t *testing.T) {
+	bs := newTestBs()
+
+	// 命中敏感词：返回 true 及原因
+	hit, reason := bs.Check("这是一个敏感词测试")
+	if !hit {
+		t.Error("Check should return true for text containing sensitive word")
+	}
+	if reason == "" {
+		t.Error("Check should return non-empty reason when hit")
+	}
+	t.Logf("命中原因: %s", reason)
+
+	// 未命中：返回 false 及空原因
+	hit2, reason2 := bs.Check("这是一段正常的文字")
+	if hit2 {
+		t.Error("Check should return false for clean text")
+	}
+	if reason2 != "" {
+		t.Errorf("Check should return empty reason for clean text, got: %s", reason2)
+	}
+}
