@@ -1,15 +1,12 @@
-# maven ignore
-target/
-*.jar
-*.war
-*.zip
-*.tar
-*.tar.gz
-
-# eclipse ignore
-.settings/
-.project
-.classpath
+# go ignore
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+vendor/
 
 # idea ignore
 .idea/
@@ -23,13 +20,7 @@ target/
 *.diff
 *.patch
 *.tmp
-*.java~
-*.properties~
-*.xml~
 
 # system ignore
 .DS_Store
 Thumbs.db
-
-
-*.jfr
