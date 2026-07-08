@@ -1,9 +1,9 @@
 # sensitive-word-go
 
-[sensitive-word-go](https://github.com/houbb/sensitive-word-go) 基于 DFA 算法实现的高性能敏感词工具，是 Java 项目 [sensitive-word](https://github.com/houbb/sensitive-word) 的 Go 重构实现。
+[sensitive-word-go](https://github.com/trustedinster/sensitive-word-go) 基于 DFA 算法实现的高性能敏感词工具，是 Java 项目 [sensitive-word](https://github.com/houbb/sensitive-word) 的 Go 重构实现。
 
-[![Open Source Love](https://badges.frapsoft.com/os/v2/open-source.svg?v=103)](https://github.com/houbb/sensitive-word-go)
-[![](https://img.shields.io/badge/license-Apache2-FF0080.svg)](https://github.com/houbb/sensitive-word-go/blob/master/LICENSE.txt)
+[![Open Source Love](https://badges.frapsoft.com/os/v2/open-source.svg?v=103)](https://github.com/trustedinster/sensitive-word-go)
+[![](https://img.shields.io/badge/license-Apache2-FF0080.svg)](https://github.com/trustedinster/sensitive-word-go/blob/master/LICENSE.txt)
 
 ## 创作目的
 
@@ -45,7 +45,7 @@
 
 ## 变更日志
 
-[CHANGE_LOG.md](https://github.com/houbb/sensitive-word-go/blob/master/CHANGE_LOG.md)
+[CHANGE_LOG.md](https://github.com/trustedinster/sensitive-word-go/blob/master/CHANGE_LOG.md)
 
 # 快速开始
 
@@ -56,7 +56,7 @@
 ## 引入
 
 ```bash
-go get github.com/houbb/sensitive-word-go
+go get github.com/trustedinster/sensitive-word-go
 ```
 
 ## 核心方法
@@ -68,7 +68,7 @@ package main
 
 import (
     "fmt"
-    "github.com/houbb/sensitive-word-go"
+    "github.com/trustedinster/sensitive-word-go"
 )
 
 func main() {
