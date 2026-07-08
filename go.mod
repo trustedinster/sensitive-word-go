@@ -1,4 +1,4 @@
-module github.com/trustedinster/sensitive-word-go/
+module github.com/trustedinster/sensitive-word-go
 
 go 1.21
 
