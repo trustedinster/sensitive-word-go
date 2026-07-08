@@ -1,6 +1,6 @@
 package sensitiveword
 
-import "fmt"
+import "strings"
 
 // SensitiveWordBs 敏感词引导类，对应 Java 的 SensitiveWordBs。
 //
@@ -293,15 +293,18 @@ func (b *SensitiveWordBs) Tags(word string) []string {
 }
 
 // Check 检测文本是否包含敏感词，返回是否命中及原因。
-// 命中时 reason 描述命中的敏感词、类型与位置；未命中时 reason 为空字符串。
+// 命中时 reason 为该敏感词的分类标签（如"政治"、"广告"），多个标签以逗号分隔；
+// 敏感词无标签时 reason 为敏感词本身；未命中时 reason 为空字符串。
 func (b *SensitiveWordBs) Check(text string) (bool, string) {
-	result := b.FindFirstRaw(text)
-	if result == nil {
+	dto := b.FindFirstWordTags(text)
+	if dto == nil {
 		return false, ""
 	}
-	reason := fmt.Sprintf("命中敏感词「%s」，类型：%s，位置：%d-%d",
-		result.Word(), result.CheckType(), result.StartIndex(), result.EndIndex())
-	return true, reason
+	tags := dto.Tags()
+	if len(tags) > 0 {
+		return true, strings.Join(tags, ",")
+	}
+	return true, dto.Word()
 }
 
 // ===== 动态增删 =====

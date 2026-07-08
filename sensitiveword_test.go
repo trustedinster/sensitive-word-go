@@ -523,7 +523,7 @@ func TestDefault(t *testing.T) {
 func TestSensitiveWordBs_Check(t *testing.T) {
 	bs := newTestBs()
 
-	// 命中敏感词：返回 true 及原因
+	// 命中敏感词：返回 true 及标签原因
 	hit, reason := bs.Check("这是一个敏感词测试")
 	if !hit {
 		t.Error("Check should return true for text containing sensitive word")
