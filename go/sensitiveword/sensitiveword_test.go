@@ -195,19 +195,57 @@ func TestWordFormatCombine(t *testing.T) {
 // ===== 繁简转换测试 =====
 
 func TestToSimple(t *testing.T) {
-	if toSimple('萬') != '万' {
-		t.Error("toSimple(萬) should be 万")
+	// 字符级繁简转换（基于 OpenCC）
+	cases := []struct{ in, want rune }{
+		{'萬', '万'},
+		{'簡', '简'},
+		{'體', '体'},
+		{'漢', '汉'},
+		{'字', '字'}, // 简体不变
+		{'軟', '软'},
+		{'體', '体'},
 	}
-	// 无映射的字符不变
-	if toSimple('字') != '字' {
-		t.Error("toSimple(字) should be 字")
+	for _, c := range cases {
+		if got := toSimple(c.in); got != c.want {
+			t.Errorf("toSimple(%q) = %q, want %q", c.in, got, c.want)
+		}
+	}
+}
+
+func TestToSimpleString(t *testing.T) {
+	// 字符级繁简转换（t2s 预设）：繁体字形 -> 简体字形
+	// 注意：t2s 是字形转换，非台湾用语转换（tw2sp）。
+	// 如"軟體"->"软体"（字形），而非"软件"（用语）。
+	cases := []struct{ in, want string }{
+		{"簡體漢字", "简体汉字"},
+		{"軟體", "软体"}, // 字形级：軟->软, 體->体
+		{"", ""},
+	}
+	for _, c := range cases {
+		if got := toSimpleString(c.in); got != c.want {
+			t.Errorf("toSimpleString(%q) = %q, want %q", c.in, got, c.want)
+		}
 	}
 }
 
 func TestRegisterT2SMapping(t *testing.T) {
+	// 用户自定义补充映射应覆盖 OpenCC 结果
 	RegisterT2SMapping('測', '测')
 	if toSimple('測') != '测' {
 		t.Error("RegisterT2SMapping failed")
+	}
+}
+
+func TestSensitiveWordBs_TraditionalChinese(t *testing.T) {
+	// 端到端：黑名单存简体字形，输入繁体字形应能匹配
+	// t2s 做字形级转换：軟->软, 體->体, 所以"軟體"归一化为"软体"
+	bs := NewSensitiveWordBs().
+		SetIgnoreChineseStyle(true).
+		Init()
+	bs.AddWord("软体")
+	// 繁体"軟體"经归一化后应命中简体字形"软体"
+	if !bs.Contains("这是軟體测试") {
+		t.Error("IgnoreChineseStyle should match 軟體 -> 软体")
 	}
 }
 

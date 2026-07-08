@@ -14,6 +14,10 @@
 //   - 支持单个黑/白名单的增删，无需全量初始化
 //   - 支持快速失败 / 全量遍历两种匹配模式
 //
+// 繁简体转换基于 OpenCC-Go (https://github.com/yanmingcao/opencc-go) 实现，
+// 使用其内嵌的 t2s 预设（纯 Go，无需外部数据文件），覆盖完整字符级繁简映射。
+// 可通过 RegisterT2SMapping / RegisterT2SMappingBatch 在 OpenCC 结果之上追加自定义映射。
+//
 // 快速开始：
 //
 //	// 方式一：使用默认实例（懒加载，首次调用自动初始化）
