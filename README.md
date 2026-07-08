@@ -118,6 +118,7 @@ if bs.Contains("联系 test@example.com") {
 | FindAllWordTags(target) | 待验证的字符串 | []*WordTagsDto | 返回所有敏感词及其标签 |
 | FindFirstWordTags(target) | 待验证的字符串 | *WordTagsDto | 返回第一个敏感词及其标签 |
 | Replace(target) | 待验证的字符串 | 字符串 | 返回脱敏后的字符串 |
+| Check(target) | 待验证的字符串 | (bool, string) | 检测是否命中，返回是否命中及原因（命中时为敏感词标签，如"政治"；未命中为空字符串） |
 | Tags(word) | 敏感词字符串 | []string | 返回敏感词的标签列表 |
 
 ### 判断是否包含敏感词
@@ -164,6 +165,20 @@ fmt.Println(bs.Replace(text)) // 这是一个##词
 bs := sensitiveword.NewSensitiveWordBs().Init()
 tags := bs.Tags("博彩")
 fmt.Println(tags) // [3]
+```
+
+### 检测并返回原因（标签）
+
+```go
+bs := sensitiveword.Default()
+
+// 命中敏感词，返回 true 及标签
+hit, reason := bs.Check("博彩网站推广")
+fmt.Println(hit, reason) // true 3
+
+// 未命中，返回 false 及空字符串
+hit, reason = bs.Check("这是一段正常的文字")
+fmt.Println(hit, reason) // false
 ```
 
 # 更多特性
