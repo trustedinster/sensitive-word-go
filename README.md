@@ -56,7 +56,7 @@
 ## 引入
 
 ```bash
-go get github.com/houbb/sensitive-word-go
+go get github.com/trustedinster/sensitive-word-go
 ```
 
 ## 核心方法
